@@ -38,6 +38,7 @@ const vAspectRatio = {
 <template>
   <section
     v-aspect-ratio="1200 / 630"
+    id="poster"
     class="bg-white shadow-lg rounded-lg p-8 gap-8"
     :style="{ backgroundImage: `url(/mesh/${background})` }"
     :class="{

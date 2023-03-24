@@ -7,6 +7,7 @@ import Right from "./components/LayoutOptions/Right.vue";
 import Center from "./components/LayoutOptions/Center.vue";
 import RightBreak from "./components/LayoutOptions/RightBreak.vue";
 import Poster from "./components/Poster.vue";
+import DownloadButton from "./components/DownloadButton.vue";
 
 const meshOptions = [
   "mesh-bg-1.png",
@@ -19,12 +20,26 @@ const meshOptions = [
   "mesh-bg-8.png",
 ];
 
+const currentImage = ref<string | ArrayBuffer | null>("null");
 const title = ref("Launching Heatmaps");
 const body = ref(
   `This report provides a peek into the busiest hours of the day for a week, helping you identify patterns in customer conversations. So, you can account for your busiest and laziest hours.`
 );
 const selectedLayout = ref("left");
 const selectedMesh = ref(meshOptions[0]);
+
+function setImage() {
+  const inputFile = document.getElementById("imageInput") as HTMLInputElement;
+  if (inputFile.files) {
+    const image = inputFile.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(image);
+    reader.onload = () => {
+      currentImage.value = reader.result;
+    };
+  }
+}
 </script>
 <template>
   <div class="min-h-screen p-5 gap-8 grid grid-cols-3 bg-gray-100">
@@ -88,13 +103,23 @@ const selectedMesh = ref(meshOptions[0]);
         </div>
       </InputWrapper>
     </section>
-    <section class="col-span-2">
+    <section class="col-span-2 space-y-4">
       <Poster
         :title="title"
         :body="body"
+        :image="currentImage"
         :layout="selectedLayout"
         :background="selectedMesh"
       />
+      <div class="flex justify-between w-full">
+        <input
+          type="file"
+          id="imageInput"
+          @change="setImage"
+          accept="image/*"
+        />
+        <DownloadButton />
+      </div>
     </section>
   </div>
 </template>

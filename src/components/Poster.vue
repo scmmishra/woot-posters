@@ -2,6 +2,7 @@
 defineProps<{
   title: string;
   body?: string;
+  image?: string;
   background: string;
   layout: string;
 }>();
@@ -39,7 +40,7 @@ const vAspectRatio = {
   <section
     v-aspect-ratio="1200 / 630"
     id="poster"
-    class="bg-white shadow-lg rounded-lg p-8 gap-8"
+    class="bg-white p-8 gap-8"
     :style="{ backgroundImage: `url(/mesh/${background})` }"
     :class="{
       'flex flex-row': layout === 'left',
@@ -63,13 +64,19 @@ const vAspectRatio = {
       </p>
     </div>
     <div
-      class="w-full bg-white/25 h-full rounded-md backdrop-blur-md border border-white/40"
+      class="w-full bg-white/25 h-full rounded-md backdrop-blur-md border border-white p-2"
       :class="{
         'w-3/5': layout === 'left' || layout === 'right',
         'min-h-20 rounded-b-none':
           layout === 'center' || layout === 'right-break',
         'rounded-tr-none': layout === 'right-break',
       }"
-    ></div>
+    >
+      <div
+        v-if="image"
+        class="w-full h-full rounded-md bg-cover"
+        :style="{ backgroundImage: 'url(' + image + ')' }"
+      ></div>
+    </div>
   </section>
 </template>

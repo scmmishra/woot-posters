@@ -38,19 +38,19 @@ const vAspectRatio = {
 <template>
   <section
     v-aspect-ratio="1200 / 630"
-    class="bg-white shadow-lg rounded-lg"
+    class="bg-white shadow-lg rounded-lg p-8 gap-8"
     :style="{ backgroundImage: `url(/mesh/${background})` }"
     :class="{
-      'grid grid-cols-2 gap-8 p-8': layout === 'left' || layout === 'right',
-      'flex flex-col gap-8 p-8 pb-0': layout === 'center',
-      'flex flex-col gap-8 p-8 pr-0 pb-0': layout === 'right-break',
+      'flex flex-row': layout === 'left',
+      'flex flex-row-reverse': layout === 'right',
+      'flex flex-col pb-0': layout === 'center',
+      'flex flex-col pr-0 pb-0': layout === 'right-break',
     }"
   >
     <div
-      class="w-full rounded-md"
       :class="{
-        'h-full py-5': layout === 'left' || layout === 'right',
-        'h-20': layout === 'center' || layout === 'right-break',
+        'h-full py-5 w-2/5': layout === 'left' || layout === 'right',
+        'min-h-20 w-full': layout === 'center' || layout === 'right-break',
       }"
     >
       <h2 class="text-5xl text-white font-bold">{{ title }}</h2>
@@ -62,9 +62,12 @@ const vAspectRatio = {
       </p>
     </div>
     <div
-      class="w-full bg-black/25 h-full rounded-md"
+      class="w-full bg-white/25 h-full rounded-md backdrop-blur-md border border-white/40"
       :class="{
-        'col-start-1 row-start-1': layout === 'right',
+        'w-3/5': layout === 'left' || layout === 'right',
+        'min-h-20 rounded-b-none':
+          layout === 'center' || layout === 'right-break',
+        'rounded-tr-none': layout === 'right-break',
       }"
     ></div>
   </section>
